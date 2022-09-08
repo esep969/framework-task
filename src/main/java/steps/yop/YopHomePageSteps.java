@@ -8,6 +8,7 @@ import pages.yopmail.YopHomePage;
 import static core.Utils.DEFAULT_TIMEOUT;
 import static core.Utils.clickWithWait;
 import static core.Utils.waitForElementBeVisible;
+import static core.Utils.waitSeconds;
 
 public class YopHomePageSteps {
 
@@ -28,6 +29,7 @@ public class YopHomePageSteps {
 
     public void openInboxPage(String address){
         waitForElementBeVisible(yopHomePage.getEmailInput(), DEFAULT_TIMEOUT);
+        waitSeconds(3);
         yopHomePage.getEmailInput().clear();
         yopHomePage.getEmailInput().sendKeys(address);
         yopHomePage.getEmailInput().sendKeys(Keys.ENTER);

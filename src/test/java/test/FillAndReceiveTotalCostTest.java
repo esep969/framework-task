@@ -3,11 +3,15 @@ package test;
 import org.junit.jupiter.api.Test;
 
 import core.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FillAndReceiveTotalCostTest extends BaseTest {
     public static final String NAME = "Google Cloud Platform Pricing Calculator";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FillAndReceiveTotalCostTest.class);
 
     @Test
     public void testFillAndReceiveTotalCost() {
@@ -19,6 +23,8 @@ public class FillAndReceiveTotalCostTest extends BaseTest {
         String totalPrice = pageStepsFactory.getEstimateBlockPageSteps().getTotalPrice();
         pageStepsFactory.getEstimateBlockPageSteps().clickEmailButton();
         pageStepsFactory.getEmailFormPageSteps().sendEmail("kouwaukuppatta-4840@yopmail.com");*/
+        LOGGER.info("Open Google Calculator");
+        LOGGER.trace("Using Search");
         pageStepsFactory.getHomePageSteps()
                 .openHomePage(GOOGLE_URL)
                 .searchGoogleCalculator(NAME);
@@ -27,21 +33,28 @@ public class FillAndReceiveTotalCostTest extends BaseTest {
                 .fillForm()
                 .addToEstimate();
         String totalPrice = pageStepsFactory.getEstimateBlockPageSteps().getTotalPrice();
+        LOGGER.info("Total price is {}", totalPrice);
         pageStepsFactory.getEstimateBlockPageSteps().clickEmailButton();
 
+        LOGGER.info("Open new tab");
         Utils.openNewTab();
+        LOGGER.trace("Switch to new tab");
         Utils.switchToWindow(2);
         pageStepsFactory.getYopHomePageSteps()
                 .openYopHomePage(YOP_MAIL_URL)
                 .openEmailGeneratorPage();
         String address = pageStepsFactory.getYopEmailGeneratorPageSteps().getEmailAddressText();
+        LOGGER.info("Email address is {}", address);
         Utils.switchToWindow(1);
         pageStepsFactory.getEmailFormPageSteps().sendEmail(address);
 
         Utils.switchToWindow(2);
         pageStepsFactory.getYopHomePageSteps()
-                .openYopHomePage(YOP_MAIL_URL).openInboxPage(address);
-        String emailTotalPrice = pageStepsFactory.getYopInboxPageSteps().getTotalPrice();
+                .openYopHomePage(YOP_MAIL_URL)
+                .openInboxPage(address);
+        String emailTotalPrice = pageStepsFactory.getYopInboxPageSteps().getTotalPriceText();
+        LOGGER.info("Total price from email is {}", totalPrice);
+        LOGGER.warn("Price in email - {}, price in calc - {}", emailTotalPrice, totalPrice);
         assertEquals(totalPrice, emailTotalPrice);
     }
 }
