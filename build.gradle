@@ -23,4 +23,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    ignoreFailures = true
+    testLogging {
+        exceptionFormat = 'full'
+        showStandardStreams = true
+    }
 }
