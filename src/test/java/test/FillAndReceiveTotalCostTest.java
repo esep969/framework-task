@@ -1,17 +1,17 @@
 package test;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 
 import core.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FillAndReceiveTotalCostTest extends BaseTest {
     public static final String NAME = "Google Cloud Platform Pricing Calculator";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FillAndReceiveTotalCostTest.class);
+    private static final Logger LOGGER = LogManager.getLogger(FillAndReceiveTotalCostTest.class);
 
     @Test
     public void testFillAndReceiveTotalCost() {
